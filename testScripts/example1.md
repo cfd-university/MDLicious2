@@ -1,0 +1,121 @@
+Provide a table of content first:
+
+[toc]
+
+# Heading 1
+
+## Heading 2
+
+### Heading 3
+
+#### Heading 4
+
+##### Heading 5
+
+###### Heading 6
+
+This (```markdown2```) is a **fast** and *complete* Python implementation of Markdown. It was written to closely match the behaviour of the original Perl-implemented Markdown.pl. Markdown2 also comes with a number of extensions (called "extras") for things like syntax coloring, tables, header-ids. See the "Extra Syntax" section below. "markdown2" supports all Python versions 3.5+ (and pypy and jython, though I don't frequently test those).
+
+## Testing links
+
+I want to be able to embed links like [google.com](https://www.google.com) directly into my text.
+
+## Equations
+
+I want equations to render natively using katex, e.g. $\mathbf{F}=m\mathbf{a}$, my favourite example, should render in text, not using katex script tags. Equations on new lines should work as well:
+
+$$
+\mathbf{F}=m\mathbf{a}
+$$
+
+But also multiline equations:
+
+$$
+\begin{bmatrix}
+1 \\
+2 \\
+3
+\end{bmatrix}\cdot
+\begin{bmatrix}
+11 \\
+22 \\
+33
+\end{bmatrix}
+$$
+
+## Images
+
+I want to be able to embed images using the native markdown syntax, on a new line, like so:
+
+<!-- width: 600px, caption: "This image is reproduced from [Teschner et al.](https://www.sciencedirect.com) -->
+![This is the alt text for an image, notice the comment above for extra information](https://placehold.co/600x400)
+
+## Block quotes
+
+I also want block quotes to display correctly. For example
+
+> Clever stuff someone once said
+>
+> [Clever dick](https://www.wikipedia.org)
+
+This should show as indented
+
+## Lists
+
+Ah, yes, lists, someone else should take care of this. I need single list, enumerated and itemised, but also nested lists, so let's test:
+
+- item 1
+- item 2
+- item 3
+
+This should be no problem. Neither should be:
+
+1. Item 1
+2. Item 2
+3. Item 3
+
+But now comes the real McCoy. How about nested lists?
+
+- Heading 1
+- Heading 2
+  - Heading 2.1
+  - Heading 2.2
+    - Heading 2.2.1
+  - Heading 2.3
+- Heading 3
+
+This will separate the boys from the girls
+
+## Code
+
+Another fancy issue. Code in text should resolve natively, like ```code``` should be formated differently. But, here is something for pygments to take care of:
+
+```python
+import numpy as np
+
+def main():
+    print('Hello numpy')
+```
+
+Also, I want to have support for C++:
+
+```c++
+#include <iostream>
+
+int main(int *argc, char[] *argv) {
+
+  // important string
+  std::cout << "Hello C++" << std::endl;
+  return 0;
+}
+```
+
+## Youtube
+
+I also want to embed youtube video directly into my code, without having to think about it, and assign the correct classes or styles.
+
+<!-- youtube: https://www.youtube.com/watch?v=3gdWqgBrERk&t=831s -->
+
+This should convert to:
+
+<iframe src="https://www.youtube-nocookie.com/embed/3gdWqgBrERk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="width:100%; aspect-ratio:16/9; border:0;"></iframe>
