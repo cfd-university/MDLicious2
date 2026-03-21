@@ -6,12 +6,14 @@ class Mark2HTML:
         self.converter = Markdown(extras=["toc", "fenced-code-blocks", "tables", "header-ids"])
 
     def convert(self):
-        html = '<html>\n<head>\n<link rel="stylesheet" href="code.css">\n</head>\n<body>\n'
-        html += self.converter.convert(self.content)
-        html += '\n</body>\n</html>'
-        toc = ''
+        html = self.converter.convert(self.content)
+        html = self.__insert_toc(html)
+        return html
 
-        # html = self.converter.convert(self.content)
-        # toc = html.toc_html
-        return toc + html
-        
+    def __insert_toc(self, html):
+        temp_html = html.split('\n')
+        for i in range(len(temp_html)):
+            if temp_html[i].find('[toc]') != -1:
+                temp_html[i] = html.toc_html
+        html = '\n'.join(temp_html)
+        return html   
