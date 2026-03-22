@@ -116,4 +116,15 @@ I also want to embed youtube video directly into my code, without having to thin
 
 This should convert to:
 
-<iframe src="https://www.youtube-nocookie.com/embed/3gdWqgBrERk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="width:100%; aspect-ratio:16/9; border:0;"></iframe>
+## Tables
+
+What would markdown conversion be without support for tables? Here is one:
+
+<!-- table: caption: "This caption should appear above the table from now on" -->
+|        | Group 1 |     | Group 2      |     |
+|--------|---------|-----|--------------|-----|
+|        | $A$     | B   | $\mathbf{A}$ | B   |
+| Test 1 | 1       | 2   | 14           | 423 |
+| Test 2 | text    | Tom | more te4xt   |     |
+
+The above should print a table!

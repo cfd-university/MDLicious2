@@ -10,3 +10,4 @@ from MDLicious2.components.youtube import YouTube
 from MDLicious2.components.equationEnvironment import EquationEnvironment 
 from MDLicious2.components.code import Code 
 from MDLicious2.components.figure import Figure 
+from MDLicious2.components.table import Table 
