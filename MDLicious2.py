@@ -11,7 +11,6 @@ def main():
     component_manager = ComponentManager()
     component_manager.register(YouTube(filereader.content))
     component_manager.register(EquationEnvironment(filereader.content))
-    component_manager.register(InlineEquation(filereader.content))
     component_manager.register(Code(filereader.content))
     component_manager.register(Figure(filereader.content))
     component_manager.register(Table(filereader.content))
