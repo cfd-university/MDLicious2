@@ -1,5 +1,5 @@
 from MDLicious2 import CommandLineArguments, FileProcessor, Mark2HTML, Preprocessor
-from MDLicious2 import ComponentManager, YouTube, EquationEnvironment, Code, Figure
+from MDLicious2 import ComponentManager, YouTube, EquationEnvironment, Code, Figure, Table
 
 
 def main():
@@ -13,6 +13,7 @@ def main():
     component_manager.register(EquationEnvironment(filereader.content))
     component_manager.register(Code(filereader.content))
     component_manager.register(Figure(filereader.content))
+    component_manager.register(Table(filereader.content))
 
     # preprocess markdown file with customised converters
     # they will already convert markdown to html
