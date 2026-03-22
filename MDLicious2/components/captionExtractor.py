@@ -1,3 +1,5 @@
+# from MDLicious2.components.inlineEquation import InlineEquation
+
 class CaptionExtractor:
     def __init__(self):
         pass
@@ -18,6 +20,10 @@ class CaptionExtractor:
                 caption = caption.replace(f'[{link_text}]({link_source})', html_link)
             else:
                 break
+        
+        # # in case caption contains equations, convert it:
+        # equation_converter = InlineEquation('')
+        # caption = equation_converter.convert_line(caption)
         
         if has_caption:
             return f'<figcaption class="wp-element-caption">{caption}</figcaption>\n'

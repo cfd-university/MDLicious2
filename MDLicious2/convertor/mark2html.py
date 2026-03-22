@@ -1,3 +1,5 @@
+from re import sub
+
 from markdown2 import Markdown
 from bs4 import BeautifulSoup
 
@@ -14,6 +16,7 @@ class Mark2HTML:
         html = self.__insert_toc(html)
         html = self.__add_security_to_links(html)
         html = self.__add_class_to_blockquotes(html)
+        html = self.__convert_inline_equations(html)
         html = self.__prettify(html)
         
         return html
@@ -52,6 +55,9 @@ class Mark2HTML:
             blockquote["class"] = "wp-block-quote"
 
         return soup.decode(formatter=None)
+
+    def __convert_inline_equations(self, html):
+        return sub(r'(?<!\$)\$(?!\$)(.*?)(?<!\$)\$(?!\$)', r'[katex]\1[/katex]', html)
 
     def __prettify(self, html):
         soup = BeautifulSoup(html, "html.parser")

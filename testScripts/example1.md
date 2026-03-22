@@ -47,7 +47,7 @@ $$
 
 I want to be able to embed images using the native markdown syntax, on a new line, like so:
 
-<!-- figure: width: 600px, caption: "This image is reproduced from [Teschner et al.](https://www.sciencedirect.com), I can even have more than one link, see: [google.com](https://www.google.com), fantastic!" -->
+<!-- figure: width: 600px, caption: "This image is reproduced from [Teschner et al.](https://www.sciencedirect.com), I can even have more than one link, see: [google.com](https://www.google.com), fantastic! Though, I may also have equations to write $1 + 2 = 3$." -->
 ![This is the alt text for an image, notice the comment above for extra information](https://placehold.co/600x400)
 
 ## Block quotes
@@ -120,7 +120,7 @@ This should convert to:
 
 What would markdown conversion be without support for tables? Here is one:
 
-<!-- table: caption: "This caption should appear above the table from now on" -->
+<!-- table: caption: "This caption should appear above the table from now on. And yes, captions here should also support equations $\mathbf{Ax}=\mathbf{b}$!" -->
 |        | Group 1 |     | Group 2      |     |
 |--------|---------|-----|--------------|-----|
 |        | $A$     | B   | $\mathbf{A}$ | B   |
