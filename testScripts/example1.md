@@ -47,7 +47,7 @@ $$
 
 I want to be able to embed images using the native markdown syntax, on a new line, like so:
 
-<!-- width: 600px, caption: "This image is reproduced from [Teschner et al.](https://www.sciencedirect.com) -->
+<!-- figure: width: 600px, caption: "This image is reproduced from [Teschner et al.](https://www.sciencedirect.com), I can even have more than one link, see: [google.com](https://www.google.com), fantastic!" -->
 ![This is the alt text for an image, notice the comment above for extra information](https://placehold.co/600x400)
 
 ## Block quotes
@@ -74,7 +74,7 @@ This should be no problem. Neither should be:
 2. Item 2
 3. Item 3
 
-But now comes the real McCoy. How about nested lists?
+How about nested lists?
 
 - Heading 1
 - Heading 2
@@ -83,8 +83,6 @@ But now comes the real McCoy. How about nested lists?
     - Heading 2.2.1
   - Heading 2.3
 - Heading 3
-
-This will separate the boys from the girls
 
 ## Code
 

@@ -49,7 +49,7 @@ class Mark2HTML:
         soup = BeautifulSoup(html, "html.parser")
 
         # bs4 removes new lines, adding them back after block level elements
-        elements = ["p", "ul", "ol", "h1", "h2", "h3", "h4", "h5", "h6", "iframe", "img", "div"]
+        elements = ["p", "ul", "ol", "h1", "h2", "h3", "h4", "h5", "h6", "iframe", "img", "div", "figure"]
         for tag in soup.find_all(elements):
             tag.insert_after("\n")
 
