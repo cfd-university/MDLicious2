@@ -13,6 +13,7 @@ class Mark2HTML:
         # modify html with custom behaviour
         html = self.__insert_toc(html)
         html = self.__add_security_to_links(html)
+        html = self.__add_class_to_blockquotes(html)
         html = self.__prettify(html)
         
         return html
@@ -44,12 +45,20 @@ class Mark2HTML:
             a["rel"] = "noopener noreferrer"
 
         return soup.decode(formatter=None)
+    
+    def __add_class_to_blockquotes(self, html):
+        soup = BeautifulSoup(html, "html.parser")
+        for blockquote in soup.find_all("blockquote"):
+            blockquote["class"] = "wp-block-quote"
+
+        return soup.decode(formatter=None)
 
     def __prettify(self, html):
         soup = BeautifulSoup(html, "html.parser")
 
         # bs4 removes new lines, adding them back after block level elements
-        elements = ["p", "ul", "ol", "h1", "h2", "h3", "h4", "h5", "h6", "iframe", "img", "div", "figure", "table"]
+        elements = ["p", "ul", "ol", "h1", "h2", "h3", "h4", "h5", "h6",
+                    "iframe", "img", "div", "figure", "table", "blockquote"]
         for tag in soup.find_all(elements):
             tag.insert_after("\n")
 
