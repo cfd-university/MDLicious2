@@ -1,5 +1,4 @@
 from MDLicious2.components.base import Component
-from os.path import join
 
 class EquationEnvironment(Component):
     def __init__(self, content):
