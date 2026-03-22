@@ -8,7 +8,6 @@ class YouTube(Component):
         line = self.content[index]
         return line.find('<!-- youtube: https://www.youtube.com/watch?v=') != -1
 
-
     def convert(self, index):
         line = self.content[index]
         url = line.replace('<!-- youtube: https://www.youtube.com/watch?v=', '')
