@@ -1,4 +1,4 @@
-![Version number](https://img.shields.io/badge/Version-0.16.0-red.svg)
+![Version number](https://img.shields.io/badge/Version-0.17.0-red.svg)
 
 ## Purpose
 

@@ -22,7 +22,7 @@ I want to be able to embed links like [google.com](https://www.google.com) direc
 
 ## Equations
 
-I want equations to render natively using katex, e.g. $\mathbf{F}=m\mathbf{a}$, my favourite example, should render in text, not using katex script tags. Equations on new lines should work as well:
+I want equations to render natively using katex, e.g. $\mathbf{F}=m\mathbf{a}$, my favourite example, should render in text, not using katex script tags. I may have more than one equation as $\mathbf{Ax}=\mathbf{b}$. Equations on new lines should work as well:
 
 $$
 \mathbf{F}=m\mathbf{a}
