@@ -25,8 +25,9 @@ class Code(Component):
         formatter = HtmlFormatter(style='nord', linenos="table", cssclass="codehilite")
         css = formatter.get_style_defs('.codehilite')
 
-        with open('code.css', 'w') as f:
-            f.write(css)
+        # # uncomment the following to generate new code styles
+        # with open('code.css', 'w') as f:
+        #     f.write(css)
 
         code = ''
         for i in range(start, end):
