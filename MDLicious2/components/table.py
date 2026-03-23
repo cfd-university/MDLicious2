@@ -2,7 +2,7 @@ from markdown2 import Markdown
 from bs4 import BeautifulSoup
 
 from MDLicious2.components.base import Component
-from MDLicious2.components.captionExtractor import CaptionExtractor
+from MDLicious2.convertor.captionExtractor import ComponentType
 
 class Table(Component):
     def __init__(self, content):
@@ -51,8 +51,7 @@ class Table(Component):
             html_table = html_table[:-1]
 
         # add table caption support
-        caption = CaptionExtractor()
-        caption_comment = caption.extract(self.content[index])
+        caption_comment = self.caption_extractor.extract(self.content[index], ComponentType.TABLE)
 
         # add weird WordPress hack where each table is an HTML figure element ... don't ask me, I think Epstein is behind it!
         html_table = '<figure class="wp-block-table">\n' + caption_comment + html_table + '</figure>\n'
