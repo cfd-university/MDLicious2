@@ -10,7 +10,7 @@ class Table(Component):
 
     def match(self, index):
         line = self.content[index]
-        is_table = line.find('<!-- table:') != -1
+        is_table = line.find('<!-- table') != -1
         return is_table
 
     def convert(self, index):
@@ -24,7 +24,7 @@ class Table(Component):
             
             line = self.content[index + num_lines]
             
-            if line.find('<!-- table:') != -1:
+            if line.find('<!-- table') != -1:
                 num_lines += 1
                 continue
             
