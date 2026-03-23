@@ -47,8 +47,13 @@ $$
 
 I want to be able to embed images using the native markdown syntax, on a new line, like so:
 
-<!-- figure: width: 600px, caption: "This image is reproduced from [Teschner et al.](https://www.sciencedirect.com), I can even have more than one link, see: [google.com](https://www.google.com), fantastic! Though, I may also have equations to write $1 + 2 = 3$." -->
+<!-- figure, width: 600px, caption: "This image is reproduced from [Teschner et al.](https://www.sciencedirect.com), I can even have more than one link, see: [google.com](https://www.google.com), fantastic! Though, I may also have equations to write $1 + 2 = 3$.", \tag{fig:figure_1} -->
 ![This is the alt text for an image, notice the comment above for extra information](https://placehold.co/600x400)
+
+<!-- figure, width: 300px, caption: "Another figure", \tag{fig:figure-2} -->
+![This is the alt text for an image, notice the comment above for extra information](https://placehold.co/300x100)
+
+And now, I can refer to the Figure as Figure \ref{fig:figure-1} and Figure \tag{fig:figure-2}.
 
 ## Block quotes
 
@@ -88,6 +93,7 @@ How about nested lists?
 
 Another fancy issue. Code in text should resolve natively, like ```code``` should be formated differently. But, here is something for pygments to take care of:
 
+<!-- code, caption: "A code section with a subtitle", \tag{code:python-hello-world} -->
 ```python
 import numpy as np
 
@@ -95,7 +101,7 @@ def main():
     print('Hello numpy')
 ```
 
-Also, I want to have support for C++:
+I should be able now to refer back to the code as Listing \ref{code:python-hello-world}. Also, I want to have support for C++. What happens if I don't provide any caption?
 
 ```c++
 #include <iostream>
@@ -120,11 +126,20 @@ This should convert to:
 
 What would markdown conversion be without support for tables? Here is one:
 
-<!-- table: caption: "This caption should appear above the table from now on. And yes, captions here should also support equations $\mathbf{Ax}=\mathbf{b}$!" -->
+<!-- table, caption: "This caption should appear above the table from now on. And yes, captions here should also support equations $\mathbf{Ax}=\mathbf{b}$!", \tag{tab:table-1} -->
 |        | Group 1 |     | Group 2      |     |
 |--------|---------|-----|--------------|-----|
 |        | $A$     | B   | $\mathbf{A}$ | B   |
 | Test 1 | 1       | 2   | 14           | 423 |
 | Test 2 | text    | Tom | more te4xt   |     |
 
-The above should print a table!
+Now let's print the same table again, but this time, I won't use any captions:
+
+<!-- table -->
+|        | Group 1 |     | Group 2      |     |
+|--------|---------|-----|--------------|-----|
+|        | $A$     | B   | $\mathbf{A}$ | B   |
+| Test 1 | 1       | 2   | 14           | 423 |
+| Test 2 | text    | Tom | more te4xt   |     |
+
+The above should print a table! Can I also refer back to Table \ref{tab:table-1}?

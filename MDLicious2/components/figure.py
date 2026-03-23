@@ -7,7 +7,7 @@ class Figure(Component):
 
     def match(self, index):
         line = self.content[index]
-        is_figure = line.find('<!-- figure:') != -1
+        is_figure = line.find('<!-- figure') != -1
         has_source = False
 
         if is_figure:
