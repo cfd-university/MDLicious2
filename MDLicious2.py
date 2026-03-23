@@ -1,5 +1,5 @@
 from MDLicious2 import CommandLineArguments, FileProcessor, Mark2HTML, Preprocessor
-from MDLicious2 import ComponentManager, YouTube, EquationEnvironment, InlineEquation, Code, Figure, Table
+from MDLicious2 import ComponentManager, YouTube, EquationEnvironment, Code, Figure, Table
 
 
 def main():
