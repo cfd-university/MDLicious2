@@ -1,9 +1,12 @@
 from abc import abstractmethod, ABCMeta
 
+from MDLicious2.convertor.captionExtractor import CaptionExtractor, ComponentType
+
 class Component(metaclass=ABCMeta):
     def __init__(self, content):
         self.content = content
         self.increment = 1
+        self.caption_extractor = CaptionExtractor()
 
     @abstractmethod
     def match(self, index):

@@ -26,6 +26,7 @@ I want equations to render natively using katex, e.g. $\mathbf{F}=m\mathbf{a}$, 
 
 $$
 \mathbf{F}=m\mathbf{a}
+\tag{eq:newton}
 $$
 
 But also multiline equations:
@@ -41,7 +42,10 @@ $$
 22 \\
 33
 \end{bmatrix}
+\tag{eq:matrix-equation}
 $$
+
+Of course, Eq.(\ref{eq:newton}) and Eq.(\ref{eq:matrix-equation}) can also be referenced now!
 
 ## Images
 
@@ -53,7 +57,7 @@ I want to be able to embed images using the native markdown syntax, on a new lin
 <!-- figure, width: 300px, caption: "Another figure", \tag{fig:figure-2} -->
 ![This is the alt text for an image, notice the comment above for extra information](https://placehold.co/300x100)
 
-And now, I can refer to the Figure as Figure \ref{fig:figure-1} and Figure \tag{fig:figure-2}.
+And now, I can refer to the Figure as Figure \ref{fig:figure_1} and Figure \ref{fig:figure-2}.
 
 ## Block quotes
 
@@ -169,4 +173,4 @@ Now let's print the same table again, but this time, I won't use any captions:
 | Test 1 | 1       | 2   | 14           | 423 |
 | Test 2 | text    | Tom | more te4xt   |     |
 
-The above should print a table! Can I also refer back to Table \ref{tab:table-1}?
+The above should print a table! Can I also refer back to Table \ref{tab:table-1}? Can I refer back several time? Table \ref{tab:table-1}, Table \ref{tab:table-1}, Table \ref{tab:table-1}!

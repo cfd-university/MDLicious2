@@ -1,5 +1,5 @@
 from MDLicious2.components.base import Component
-from MDLicious2.components.captionExtractor import CaptionExtractor
+from MDLicious2.convertor.captionExtractor import ComponentType
 
 class Figure(Component):
     def __init__(self, content):
@@ -29,11 +29,9 @@ class Figure(Component):
         alt_text = next_line.split('![')[1].split('](')[0]
         image_source = next_line.split('](')[1].split(')')[0]
 
-        caption = CaptionExtractor()
-
         figure_html = '<figure class="wp-block-image aligncenter size-large is-resized">\n'
         figure_html += f'<img src="{image_source}" alt="{alt_text}" class="wp-image-5550" style="width:{width}px"/>'
-        figure_html += caption.extract(line)
+        figure_html += self.caption_extractor.extract(line, ComponentType.FIGURE)
         figure_html += '</figure>'
 
         return figure_html

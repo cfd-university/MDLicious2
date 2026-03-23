@@ -2,6 +2,7 @@ from MDLicious2.processor.cla import CommandLineArguments
 from MDLicious2.processor.fileProcessor import FileProcessor
 from MDLicious2.convertor.mark2html import Mark2HTML
 from MDLicious2.convertor.preprocessor import Preprocessor
+from MDLicious2.convertor.captionMatcher import CaptionMatcher
 
 # components
 from MDLicious2.components.componentManager import ComponentManager

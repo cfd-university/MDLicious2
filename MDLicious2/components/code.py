@@ -1,6 +1,8 @@
-from MDLicious2.components.base import Component
 from os.path import join
 import re
+
+from MDLicious2.components.base import Component
+from MDLicious2.convertor.captionExtractor import ComponentType
 
 from pygments import highlight
 from pygments.lexers import get_lexer_by_name
@@ -16,6 +18,9 @@ class Code(Component):
 
     def convert(self, index):
         start, end = self._find_start_end_based_on_pattern(index, '```')
+
+        # extract possible caption on the previous line
+        caption = self.caption_extractor.extract(self.content[index - 1], ComponentType.CODE)
 
         language = 'text'
         if len(self.content[index].strip()) > 3:
@@ -36,4 +41,4 @@ class Code(Component):
 
         html_code = highlight(code, lexer, formatter)
 
-        return html_code
+        return html_code + caption

@@ -1,4 +1,4 @@
-from MDLicious2 import CommandLineArguments, FileProcessor, Mark2HTML, Preprocessor
+from MDLicious2 import CommandLineArguments, FileProcessor, Mark2HTML, Preprocessor, CaptionMatcher
 from MDLicious2 import ComponentManager, YouTube, EquationEnvironment, Code, Figure, Table
 
 
@@ -7,17 +7,21 @@ def main():
     args = CommandLineArguments()
     filereader = FileProcessor(args)
 
+    # Replace \ref{} call with actual captions
+    caption_matcher = CaptionMatcher(filereader.content)
+    content = caption_matcher.substitute()
+
     # register customised markdown to html converters
     component_manager = ComponentManager()
-    component_manager.register(YouTube(filereader.content))
-    component_manager.register(EquationEnvironment(filereader.content))
-    component_manager.register(Code(filereader.content))
-    component_manager.register(Figure(filereader.content))
-    component_manager.register(Table(filereader.content))
+    component_manager.register(YouTube(content))
+    component_manager.register(EquationEnvironment(content))
+    component_manager.register(Code(content))
+    component_manager.register(Figure(content))
+    component_manager.register(Table(content))
 
     # preprocess markdown file with customised converters
     # they will already convert markdown to html
-    preprocessor = Preprocessor(filereader.content, component_manager.components)
+    preprocessor = Preprocessor(content, component_manager.components)
     preprocessor.preprocess_content()
         
     # convert remaining (standard) markdown to html
