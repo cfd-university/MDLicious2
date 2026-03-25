@@ -20,6 +20,7 @@ class CaptionMatcher:
 
     def __scan(self):
         for index in range(0, len(self.content)):
+            previous_line = self.content[index - 1].strip()
             line = self.content[index].strip()
 
             if self.__is_figure(line):
@@ -43,14 +44,11 @@ class CaptionMatcher:
                 self.counter[ComponentType.TABLE] += 1
 
             elif self.__is_code(line):
-                tag = self.__extract_tag(line)
+                tag = self.__extract_tag(previous_line)
                 
                 if len(tag) > 0:
                     self.counter_map[tag] = self.counter[ComponentType.CODE]
-                else:
-                    temp = f'code:listing-{self.counter[ComponentType.CODE]}'
-                    self.counter_map[temp] = self.counter[ComponentType.CODE]
-                self.counter[ComponentType.CODE] += 1
+                    self.counter[ComponentType.CODE] += 1
 
             elif self.__is_equation(line):
                 tag = self.__extract_tag(line)
@@ -60,7 +58,7 @@ class CaptionMatcher:
                 else:
                     temp = f'eq:equation-{self.counter[ComponentType.EQUATION]}'
                     self.counter_map[temp] = self.counter[ComponentType.EQUATION]
-                self.counter[ComponentType.EQUATION] += 1      
+                self.counter[ComponentType.EQUATION] += 1
 
     def __is_figure(self, line):
         return line.find('<!-- figure') != -1
@@ -85,15 +83,30 @@ class CaptionMatcher:
             return line.split(r'\tag')[1].split('{')[1].split('}')[0]
         else:
             return ''
+    
+    def __extract_ref(self, line):
+        if self.__has_ref(line):
+            return line.split(r'\ref')[1].split('{')[1].split('}')[0]
+        else:
+            return ''
 
     def substitute(self):
         for index in range(0, len(self.content)):
             line = self.content[index].strip()
 
             if self.__has_ref(line):
-                for tag in self.counter_map.keys():
-                    while self.content[index].find(tag) != -1:
-                        self.content[index] = self.content[index].replace(r'\ref{' + tag + '}', f'{self.counter_map[tag]}')
+                counter = 0
+                while self.content[index].find(r'\ref') != -1:
+                    for tag in self.counter_map.keys():
+                        ref_found = self.__extract_ref(self.content[index])
+                        if ref_found.strip() == tag.strip():
+                            self.content[index] = self.content[index].replace(r'\ref{' + tag + '}', f'{self.counter_map[tag]}')
+
+                        if counter > 100:
+                            print('I tried to make too many substitutions, this is probably a bug.\n')
+                            print(f'I tried to replace {tag} with {self.counter_map[tag]} in "{self.content[index]}"')
+                            exit()
+                        counter += 1
             
             # replace equation tag explicitly by number
             if line.find(r'\tag{eq:') != -1:

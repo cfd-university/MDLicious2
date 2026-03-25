@@ -16,10 +16,17 @@ class CaptionExtractor:
 
     def extract(self, caption_comment, component_type):
         has_caption = caption_comment.find('caption:') != -1
+        has_tag = caption_comment.find('\\tag') != -1
+
+        # code has a special behaviour. Check if caption and/or tag is provided and handle accordingly
+        if component_type == ComponentType.CODE:
+            if not has_caption and not has_tag:
+                return ''
+
         caption = ''
         if has_caption:
             caption = caption_comment.split('caption: "')[1].split('"')[0]
-        
+
         # check if caption contains a link
         if has_caption:
             caption_has_link = True
@@ -45,7 +52,8 @@ class CaptionExtractor:
             caption_counter = f'Listing {code_counter}'
         
         self.counter[component_type] += 1
-        
+
+        # handle all other cases
         if len(caption.strip()) > 0:
             return f'<figcaption class="wp-element-caption">{caption_counter}: {caption}</figcaption>\n'
         else:
