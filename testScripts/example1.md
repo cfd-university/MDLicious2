@@ -116,34 +116,30 @@ int main(int *argc, char[] *argv) {
   std::cout << "Hello C++" << std::endl;
   return 0;
 }
-
-#include <iostream>
-
-int main(int *argc, char[] *argv) {
-
-  // important string
-  std::cout << "Hello C++" << std::endl;
-  return 0;
-}
-
-#include <iostream>
-
-int main(int *argc, char[] *argv) {
-
-  // important string
-  std::cout << "Hello C++" << std::endl;
-  return 0;
-}
-
-#include <iostream>
-
-int main(int *argc, char[] *argv) {
-
-  // important string
-  std::cout << "Hello C++" << std::endl;
-  return 0;
-}
 ```
+
+Now another code section with a caption:
+
+<!-- code, caption: "Just another code section ...", \tag{code:python-hello-world-2} -->
+```python
+import numpy as np
+
+def main():
+    print('Hello numpy')
+```
+
+This should be Listing 2, we can veryfy that by refering back to its tag (Listing \ref{code:python-hello-world-2}). Is it the same? Brilliant, that means that the second code sectionw as ignored!
+
+<!-- code, \tag{code:python-hello-world-3} -->
+```python
+import numpy as np
+
+def main():
+    print('Hello numpy')
+```
+
+A code section without a ```caption``` but with a ```tag``` should still yield a section beneath the code with "Listing 1", "Listing 2", "Listing 3", and so on. I should be able to refer back to it as well, for example, see Listing \ref{code:python-hello-world-3}.
+
 
 ## Youtube
 
