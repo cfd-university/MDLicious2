@@ -2,7 +2,7 @@
 
 ## Introduction
 
-MDLicious2 is a ```markdown``` to ```html``` converter based on [python-markdown2](https://github.com/trentm/python-markdown2) with additional conversion of additional (unsupported) Markdown syntax as used in articles on [cfd.university](https://cfd.university).
+MDLicious2 is a ```markdown``` to ```html``` converter based on [python-markdown2](https://github.com/trentm/python-markdown2) with additional conversion of additional (unsupported) Markdown syntax as used in [articles](https://github.com/cfd-university/articles) on [cfd.university](https://cfd.university).
 
 The new syntax that is added allows to easily integrate:
 - Figures, captions, and figure numbering
