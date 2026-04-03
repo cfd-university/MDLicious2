@@ -1,21 +1,13 @@
-from argparse import ArgumentParser
+import json
+from sys import argv
 
 class CommandLineArguments:
     def __init__(self):
-        self.parser = ArgumentParser(
-            prog='MDLicious2',
-            description='Convert markdown to HTML using cfd.university specific extensions',
-            epilog='Tom-Robin Teschner'
-        )
+        assert len(argv) == 2, "Invalid number of arguments, requires 1 json file as argument!"
 
-        self.parser.add_argument('-i', '--input', type=str, required=True, help='Input file')
-        self.parser.add_argument('-o', '--output', type=str, required=True, help='Output file')
+        with open(argv[1], 'r') as f:
+            self.parser = json.load(f)
 
-        self.input = self.__get_input()
-        self.output = self.__get_output()
-    
-    def __get_input(self):
-        return self.parser.parse_args().input
-
-    def __get_output(self):
-        return self.parser.parse_args().output
+        self.input = self.parser["inputFile"]
+        self.output = self.parser["outputFile"]
+        self.replace = self.parser["replace"]

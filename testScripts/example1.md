@@ -59,6 +59,11 @@ I want to be able to embed images using the native markdown syntax, on a new lin
 
 And now, I can refer to the Figure as Figure \ref{fig:figure_1} and Figure \ref{fig:figure-2}.
 
+I also want to be able to replace sources in figures so I can have path to pictures locally, which are replaced by a remote image storage container in the converted HTML file:
+
+<!-- figure, width: 300px, caption: "Some boundary condition stuff, who cares, really?", \tag{fig:figure-3} -->
+![Sketch of a 1D domain with boundary conditions on the left and right, as well as internal nodes](..\..\articles\07_10-key-concepts-everyone-must-understand-in-cfd\assets\05_5_matrix\otto-aviation-celera-500L.jpg)
+
 ## Block quotes
 
 I also want block quotes to display correctly. For example

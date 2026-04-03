@@ -1,4 +1,4 @@
-![Version number](https://img.shields.io/badge/Version-0.18.2-red.svg)
+![Version number](https://img.shields.io/badge/Version-0.19.0-red.svg)
 
 ## Introduction
 
@@ -15,16 +15,23 @@ All, except the YouTube ```iframe```s, provide numbering support, and this is ex
 
 ## Usage
 
-To use this converter, you may run it with the ```-h``` flag to see all provided command line arguments:
+To use this converter, you need to provide a json configuration file of the form:
 
-```bash
-python3 -h
+```json
+{
+    "inputFile": "/path/to/markdown/file.md",
+    "outputFile": "/path/to/html/file.html",
+    "replace": {
+        "find this string in text": "replace it with this text",
+        "some more matches to replace": "with yet another string"
+    }
+}
 ```
 
-You need to provided an input (mardown) file via the ```-i``` or ```--input``` flag, and the output (html) file via the ```-o``` or ```--output``` flag. For example:
+Only the ```inputFile``` and ```outputFile``` are strictly speaking required. other options are optional. If this ```JSON``` file is stored as config.json in the current directory, then we can run it as:
 
 ```bash
-python3 MDLicious2.py --input articles/some_important_article.md --output converted_article.html
+python3 /path/to/MDLicious2.py /path/to/config.json
 ```
 
 ## New Markdown components
