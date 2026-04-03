@@ -40,16 +40,17 @@ class CaptionExtractor:
                 else:
                     break
         
-        caption_counter = ''
+        caption_counter = '<strong>'
         if component_type == ComponentType.FIGURE:
             figure_counter = self.counter[ComponentType.FIGURE]
-            caption_counter = f'Figure {figure_counter}'
+            caption_counter += f'Figure {figure_counter}'
         elif component_type == ComponentType.TABLE:
             table_counter = self.counter[ComponentType.TABLE]
-            caption_counter = f'Table {table_counter}'
+            caption_counter += f'Table {table_counter}'
         elif component_type == ComponentType.CODE:
             code_counter = self.counter[ComponentType.CODE]
-            caption_counter = f'Listing {code_counter}'
+            caption_counter += f'Listing {code_counter}'
+        caption_counter += '</strong>'
         
         self.counter[component_type] += 1
 
