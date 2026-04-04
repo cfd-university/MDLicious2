@@ -18,11 +18,11 @@ class CheckManager:
             for line in self.content:
                 check.run(line, self.warnings, self.errors)
         
-        warning_json = json.dumps(self.warnings)
-        error_json = json.dumps(self.errors)
+        stderr = {}
+        stderr['warnings'] = self.warnings
+        stderr['errors'] = self.errors
+
+        stderr_json = json.dumps(stderr)
         
-        with open(join(self.output_directory, 'warnings.json'), 'w') as f:
-            f.write(warning_json)
-        
-        with open(join(self.output_directory, 'errors.json'), 'w') as f:
-            f.write(error_json)
+        with open(join(self.output_directory, 'stderr.json'), 'w') as f:
+            f.write(stderr_json)
