@@ -7,3 +7,9 @@ class BaseCheck(metaclass=ABCMeta):
     @abstractmethod
     def run(self, line, warnings, errors):
         pass
+
+    def _add_warning(self, warning, line):
+        return f'<p>{warning}</p><p>{line}</p>'
+
+    def _add_error(self, error, line):
+        return f'<p>{error}</p><p>{line}</p>'

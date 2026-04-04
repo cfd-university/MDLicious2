@@ -10,11 +10,11 @@ class EquationCheck(BaseCheck):
 
         if not is_even:
             highlighted_line = line.replace('$', '<strong>$</strong>')
-            warnings.append(f'uneven number of dollar signs in line: {highlighted_line}')
+            warnings.append(self._add_warning('uneven number of dollar signs', highlighted_line))
 
         if len(line) > 2:
             double_dollar_signs = line.count('$$')
 
             if double_dollar_signs > 0:
                 highlighted_line = line.replace('$$', '<strong>$$</strong>')
-                errors.append(f'double dollar signs in line: {highlighted_line}')
+                errors.append(self._add_error('double dollar signs', highlighted_line))
