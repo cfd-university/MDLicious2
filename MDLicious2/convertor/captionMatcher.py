@@ -96,16 +96,18 @@ class CaptionMatcher:
 
             if self.__has_ref(line):
                 counter = 0
-                while self.content[index].find(r'\ref') != -1:
+                has_ref = self.content[index].find(r'\ref') != -1
+                while has_ref:
                     for tag in self.counter_map.keys():
                         ref_found = self.__extract_ref(self.content[index])
                         if ref_found.strip() == tag.strip():
                             self.content[index] = self.content[index].replace(r'\ref{' + tag + '}', f'{self.counter_map[tag]}')
 
+                        # if we have a typo in our ref tag, it will never be substituted
+                        # if this is the case, silently fail
+                        # this will be caught later by the ref checker
                         if counter > 100:
-                            print('I tried to make too many substitutions, this is probably a bug.\n')
-                            print(f'I tried to replace {tag} with {self.counter_map[tag]} in "{self.content[index]}"')
-                            exit()
+                            has_ref = False
                         counter += 1
             
             # replace equation tag explicitly by number
