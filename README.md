@@ -1,4 +1,4 @@
-![Version number](https://img.shields.io/badge/Version-0.19.1-red.svg)
+![Version number](https://img.shields.io/badge/Version-0.20.0-red.svg)
 
 ## Introduction
 
@@ -20,7 +20,7 @@ To use this converter, you need to provide a json configuration file of the form
 ```json
 {
     "inputFile": "/path/to/markdown/file.md",
-    "outputFile": "/path/to/html/file.html",
+    "outputDirectory": "/output/directory/",
     "replace": {
         "find this string in text": "replace it with this text",
         "some more matches to replace": "with yet another string"
@@ -28,7 +28,7 @@ To use this converter, you need to provide a json configuration file of the form
 }
 ```
 
-Only the ```inputFile``` and ```outputFile``` are strictly speaking required. other options are optional. If this ```JSON``` file is stored as config.json in the current directory, then we can run it as:
+Only the ```inputFile``` and ```outputDirectory``` are strictly speaking required. The generated HTML file will take the same filename as the markdown file, with only the extension changed from ```md``` to ```html```. Other inputs are optional. If this ```JSON``` file is stored as config.json in the current directory, then we can run it as:
 
 ```bash
 python3 /path/to/MDLicious2.py /path/to/config.json

@@ -1,9 +1,13 @@
-
+from os.path import join
 
 class FileProcessor:
     def __init__(self, cla):
         self.input_file = cla.input
-        self.output_file = cla.output
+        self.output_directory = cla.output
+
+        file_name = self.input_file.split('/')[-1].split('.')[0] + '.html'
+
+        self.output_file = join(self.output_directory, file_name)
         self.replace = cla.replace
 
         self.content = self.__read_file()

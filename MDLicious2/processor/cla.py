@@ -10,7 +10,7 @@ class CommandLineArguments:
 
         # required input parameters
         self.input = self.parser["inputFile"]
-        self.output = self.parser["outputFile"]
+        self.output = self.parser["outputDirectory"]
 
         # optional input parameters, empty by default
         self.replace = {}

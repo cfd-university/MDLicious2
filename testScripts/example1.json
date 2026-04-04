@@ -1,6 +1,6 @@
 {
     "inputFile": "testScripts/example1.md",
-    "outputFile": "out/example1.html",
+    "outputDirectory": "out",
     "replace": {
         "..\\..\\articles\\07_10-key-concepts-everyone-must-understand-in-cfd\\assets\\05_5_matrix\\": "https://raw.githubusercontent.com/cfd-university/media/refs/heads/main/10-key-concepts-everyone-must-understand-in-CFD/advanced-rans/"
     }

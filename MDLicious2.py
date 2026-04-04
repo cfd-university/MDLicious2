@@ -1,11 +1,17 @@
 from MDLicious2 import CommandLineArguments, FileProcessor, Mark2HTML, Preprocessor, CaptionMatcher
 from MDLicious2 import ComponentManager, YouTube, EquationEnvironment, Code, Figure, Table
+from MDLicious2 import BaseCheck, CheckManager, EquationCheck
 
 
 def main():
     # process input file
     args = CommandLineArguments()
     filereader = FileProcessor(args)
+
+    # perform checks on input file
+    checks = CheckManager(filereader.content, args.output)
+    checks.register(EquationCheck())
+    checks.run_checks()
 
     # Replace \ref{} call with actual captions
     caption_matcher = CaptionMatcher(filereader.content)
