@@ -8,6 +8,11 @@ class CommandLineArguments:
         with open(argv[1], 'r') as f:
             self.parser = json.load(f)
 
+        # required input parameters
         self.input = self.parser["inputFile"]
         self.output = self.parser["outputFile"]
-        self.replace = self.parser["replace"]
+
+        # optional input parameters, empty by default
+        self.replace = {}
+        if "replace" in self.parser:
+            self.replace = self.parser["replace"]
