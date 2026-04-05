@@ -1,6 +1,6 @@
 from MDLicious2 import CommandLineArguments, FileProcessor, Mark2HTML, Preprocessor, CaptionMatcher
 from MDLicious2 import ComponentManager, YouTube, EquationEnvironment, Code, Figure, Table
-from MDLicious2 import BaseCheck, CheckManager, EquationCheck, RefCheck
+from MDLicious2 import BaseCheck, CheckManager, EquationCheck, RefCheck, CodeCheck
 
 
 def main():
@@ -32,6 +32,7 @@ def main():
     # perform checks on input and output file
     checks = CheckManager(filereader.content, html_content, args.output)
     checks.register_markdown_checks(EquationCheck())
+    checks.register_markdown_checks(CodeCheck())
     checks.register_html_checks(RefCheck())
     checks.run_checks()
 
