@@ -16,3 +16,4 @@ from MDLicious2.components.table import Table
 from MDLicious2.checks.baseCheck import BaseCheck
 from MDLicious2.checks.checkManager import CheckManager
 from MDLicious2.checks.equationCheck import EquationCheck
+from MDLicious2.checks.refCheck import RefCheck

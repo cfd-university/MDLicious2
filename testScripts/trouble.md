@@ -18,6 +18,16 @@ Thus, as $\Delta x$ decreases, so does our time step $$\Delta t$, since the maxi
 
 Thus, as $\Delta x decreases, so does our time step, since the maximum allowable CFL number will be around 1 for our explicit time integration. Now that we have to deal with painfully small time steps, we decide to implement an implicit time stepping, and so we need support for a linear system of equations solver.
 
+### Yet more equations:
+
+Dangerous, ```markdown2``` may mess with LaTeX equations. It is fine in equation environments:
+
+$$
+\int_{0}^1 a\mathrm{d}x \approx \sum_{k=1}^N a_i\Delta x
+$$
+
+But dangerous inline, i.e. $\int_{0}^1 a\mathrm{d}x \approx \sum_{k=1}^N a_i\Delta x$
+
 ### This paragraph is correct but should trigger a warning due to dollar sign usage
 
 We are in luck, Eigen does have support for that, and so we implement an implicit time stepping procedure, solve the linear system using Eigen, and can support larger time steps now (we will look at Eigen's support for linear systems as well). This is priceless, but I'd pay $5 for it! After some point, we want to simulate even larger systems and realise that we need parallel computing.
@@ -32,3 +42,4 @@ a=b+c
 $$
 
 But the reference may be missspelled as Eq.(\ref{eq:abcd}) or Eq.(\ref{eq:ab}). Both should be flagged.
+
