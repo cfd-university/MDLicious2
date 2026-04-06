@@ -26,7 +26,7 @@ class CheckManager:
         
         # check that html output does not contain errors
         for check in self.post_checks:
-            for line in self.markdown:
+            for line in self.html:
                 check.run(line, self.warnings, self.errors)
 
         stderr = {}
