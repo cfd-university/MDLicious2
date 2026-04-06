@@ -10,7 +10,7 @@ def main():
 
     # Build up map to to replace tags later in HTML
     caption_matcher = CaptionMatcher()
-    content = caption_matcher.add_default_tag_to_equations(filereader.content)
+    content = caption_matcher.setup_equation_tags(filereader.content)
     caption_matcher.setup_ref_map(content)
 
     # register customised markdown to html converters

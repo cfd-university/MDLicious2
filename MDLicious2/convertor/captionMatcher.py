@@ -14,7 +14,7 @@ class CaptionMatcher:
 
         self.counter_map = {}
     
-    def add_default_tag_to_equations(self, content):
+    def setup_equation_tags(self, content):
         index = 0
         equation_counter = 0
         while (index < len(content)):
@@ -33,22 +33,28 @@ class CaptionMatcher:
                         break
                 
                 has_tag = False
+                tag = ''
                 for i in range(index + 1, index + num_lines_equations):
                     line = content[i].strip()
                     if line.find(r'\tag') != -1:
                         has_tag = True
+                        tag = self.__extract_tag(line)
+                        break
                 
-                if not has_tag:
+                if has_tag:
+                    self.counter_map[tag] = self.counter[ComponentType.EQUATION]
+                elif not has_tag:
                     tag = f'eq:equation-{equation_counter}'
-                    last_eq_line = index + num_lines_equations - 1
-                    content[last_eq_line] = content[last_eq_line] + r'\n\tag{' + tag + '}'
+                    last_eq_line = index + num_lines_equations
+                    content.insert(last_eq_line, r'\tag{' + tag + '}')
+                    self.counter_map[tag] = self.counter[ComponentType.EQUATION]
 
-                index += num_lines_equations + 1
+                # increment equation counter           
+                self.counter[ComponentType.EQUATION] += 1
+                index += num_lines_equations + 2
             index += 1
 
         return content
-
-
 
     def setup_ref_map(self, content):
         for index in range(0, len(content)):
@@ -82,15 +88,15 @@ class CaptionMatcher:
                     self.counter_map[tag] = self.counter[ComponentType.CODE]
                     self.counter[ComponentType.CODE] += 1
 
-            elif self.__is_equation(line):
-                tag = self.__extract_tag(line)
+            # elif self.__is_equation(line):
+            #     tag = self.__extract_tag(line)
                 
-                if len(tag) > 0:
-                    self.counter_map[tag] = self.counter[ComponentType.EQUATION]
-                else:
-                    temp = f'eq:equation-{self.counter[ComponentType.EQUATION]}'
-                    self.counter_map[temp] = self.counter[ComponentType.EQUATION]
-                self.counter[ComponentType.EQUATION] += 1
+            #     if len(tag) > 0:
+            #         self.counter_map[tag] = self.counter[ComponentType.EQUATION]
+            #     else:
+            #         temp = f'eq:equation-{self.counter[ComponentType.EQUATION]}'
+            #         self.counter_map[temp] = self.counter[ComponentType.EQUATION]
+            #     self.counter[ComponentType.EQUATION] += 1
 
     def __is_figure(self, line):
         return line.find('<!-- figure') != -1
