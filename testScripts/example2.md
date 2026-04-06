@@ -4069,7 +4069,7 @@ $$
 
 So, the derivative is indeed positive. But, if we walked now along the direction of the gradient, we would be going to the right (positive x-direction). This would take us away from the minimum. Instead, we go in the negative direction of the derivative, i.e. $-f'(x)=-1$. By how much are we going in that direction (i.e. what is our scalar multiplier $\alpha$)? Let's simply take the absolute value of the derivative, i.e. $|f'(x)|$. As we get closer to the minimum of $f(x)$, the derivative gets smaller and so our updated will get smaller as well.
 
-We can now use Eq.(\ref{eq:lines-earch}) again, which becomes:
+We can now use Eq.(\ref{eq:line-search}) again, which becomes:
 
 $$
 \mathbf{x}^{k+1}=\mathbf{x}^k + \alpha^k\mathbf{r}^k\\

@@ -44,9 +44,9 @@ class CaptionMatcher:
                 if has_tag:
                     self.counter_map[tag] = self.counter[ComponentType.EQUATION]
                 elif not has_tag:
-                    tag = f'eq:equation-{equation_counter}'
+                    tag = '{' + f'eq:equation-{equation_counter}' + '}'
                     last_eq_line = index + num_lines_equations
-                    content.insert(last_eq_line, r'\tag{' + tag + '}')
+                    content.insert(last_eq_line, r'\tag' + tag)
                     self.counter_map[tag] = self.counter[ComponentType.EQUATION]
 
                 # increment equation counter           
@@ -67,7 +67,7 @@ class CaptionMatcher:
                 if len(tag) > 0:
                     self.counter_map[tag] = self.counter[ComponentType.FIGURE]
                 else:
-                    temp = f'fig:figure-{self.counter[ComponentType.FIGURE]}'
+                    temp = '{' + f'fig:figure-{self.counter[ComponentType.FIGURE]}' + '}'
                     self.counter_map[temp] = self.counter[ComponentType.FIGURE]
                 self.counter[ComponentType.FIGURE] += 1
 
@@ -77,7 +77,7 @@ class CaptionMatcher:
                 if len(tag) > 0:
                     self.counter_map[tag] = self.counter[ComponentType.TABLE]
                 else:
-                    temp = f'tab:table-{self.counter[ComponentType.TABLE]}'
+                    temp = '{' + f'tab:table-{self.counter[ComponentType.TABLE]}' + '}'
                     self.counter_map[temp] = self.counter[ComponentType.TABLE]
                 self.counter[ComponentType.TABLE] += 1
 
@@ -88,16 +88,6 @@ class CaptionMatcher:
                     self.counter_map[tag] = self.counter[ComponentType.CODE]
                     self.counter[ComponentType.CODE] += 1
 
-            # elif self.__is_equation(line):
-            #     tag = self.__extract_tag(line)
-                
-            #     if len(tag) > 0:
-            #         self.counter_map[tag] = self.counter[ComponentType.EQUATION]
-            #     else:
-            #         temp = f'eq:equation-{self.counter[ComponentType.EQUATION]}'
-            #         self.counter_map[temp] = self.counter[ComponentType.EQUATION]
-            #     self.counter[ComponentType.EQUATION] += 1
-
     def __is_figure(self, line):
         return line.find('<!-- figure') != -1
 
@@ -107,9 +97,6 @@ class CaptionMatcher:
     def __is_code(self, line):
         return re.search(r'^```[A-Za-z0-9+]+\s*$', line)
 
-    def __is_equation(self, line):
-        return line.find(r'\tag{eq:') != -1
-
     def __has_tag(self, line):
         return line.find(r'\tag') != -1
 
@@ -118,13 +105,15 @@ class CaptionMatcher:
 
     def __extract_tag(self, line):
         if self.__has_tag(line):
-            return line.split(r'\tag')[1].split('{')[1].split('}')[0]
+            tag = line.split(r'\tag')[1].split('{')[1].split('}')[0]
+            return '{' + tag + '}'
         else:
             return ''
     
     def __extract_ref(self, line):
         if self.__has_ref(line):
-            return line.split(r'\ref')[1].split('{')[1].split('}')[0]
+            ref = line.split(r'\ref')[1].split('{')[1].split('}')[0]
+            return '{' + ref + '}'
         else:
             return ''
 
@@ -137,22 +126,21 @@ class CaptionMatcher:
                 counter = 0
                 has_ref = content[index].find(r'\ref') != -1
                 while has_ref:
-                    for tag in self.counter_map.keys():
-                        ref_found = self.__extract_ref(content[index])
-                        if ref_found.strip() == tag.strip():
-                            content[index] = content[index].replace(r'\ref{' + tag + '}', f'{self.counter_map[tag]}')
-
-                        # if we have a typo in our ref tag, it will never be substituted
-                        # if this is the case, silently fail
-                        # this will be caught later by the ref checker
-                        if counter > 100:
-                            has_ref = False
+                    ref_found = self.__extract_ref(content[index])
+                    if len(ref_found) == 0:
+                        break
+                    else:
+                        if ref_found in self.counter_map.keys():
+                            content[index] = content[index].replace(r'\ref' + ref_found, f'{self.counter_map[ref_found]}')
                         counter += 1
+                        if counter > 20:
+                            print(f'Too many substitution attempts for {ref_found}. Possible typo?')
+                            break
             
             # replace equation tag explicitly by number
             if line.find(r'\tag{eq:') != -1:
                 for tag in self.counter_map.keys():
                     if content[index].find(tag) != -1:
-                        content[index] = content[index].replace(f'{tag}', f'{ self.counter_map[tag]}')
+                        content[index] = content[index].replace(f'{tag}', '{' + f'{ self.counter_map[tag]}' + '}')
 
         return '\n'.join(content)
