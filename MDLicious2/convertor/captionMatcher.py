@@ -5,7 +5,7 @@ from MDLicious2.components.base import ComponentType
 
 class CaptionMatcher:
     def __init__(self, content):
-        self.content = content
+        self.content = content.split('\n')
 
         self.counter = {
             ComponentType.FIGURE: 1,
@@ -116,4 +116,4 @@ class CaptionMatcher:
                     if self.content[index].find(tag) != -1:
                         self.content[index] = self.content[index].replace(f'{tag}', f'{ self.counter_map[tag]}')
 
-        return self.content
+        return '\n'.join(self.content)

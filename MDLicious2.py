@@ -8,25 +8,25 @@ def main():
     args = CommandLineArguments()
     filereader = FileProcessor(args)
 
-    # Replace \ref{} call with actual captions
-    caption_matcher = CaptionMatcher(filereader.content)
-    content = caption_matcher.substitute()
-
     # register customised markdown to html converters
     component_manager = ComponentManager()
-    component_manager.register(YouTube(content))
-    component_manager.register(EquationEnvironment(content))
-    component_manager.register(Code(content))
-    component_manager.register(Figure(content))
-    component_manager.register(Table(content))
+    component_manager.register(YouTube(filereader.content))
+    component_manager.register(EquationEnvironment(filereader.content))
+    component_manager.register(Code(filereader.content))
+    component_manager.register(Figure(filereader.content))
+    component_manager.register(Table(filereader.content))
 
     # preprocess markdown file with customised converters
     # they will already convert markdown to html
-    preprocessor = Preprocessor(content, component_manager.components)
+    preprocessor = Preprocessor(filereader.content, component_manager.components)
     preprocessor.preprocess_content()
 
+    # Replace \ref{} call with actual captions
+    caption_matcher = CaptionMatcher(preprocessor.processed_content)
+    content = caption_matcher.substitute()
+
     # convert remaining (standard) markdown to html
-    converter = Mark2HTML(preprocessor.processed_content)
+    converter = Mark2HTML(content)
     html_content = converter.convert()
 
     # perform checks on input and output file
