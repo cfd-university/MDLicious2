@@ -17,4 +17,4 @@ class RefCheck(BaseCheck):
             
             if not has_correct_tag:
                 highlighted_line = self._highlight(r'\tag', line)
-                errors.append(self._create_error(r'wrong tag found, nees to start with \ref{eq:, \ref{fig:, or \ref{tab:', highlighted_line))
+                errors.append(self._create_error(r'wrong tag found, needs to start with \ref{eq:, \ref{fig:, or \ref{tab:', highlighted_line))

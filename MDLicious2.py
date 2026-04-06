@@ -8,22 +8,26 @@ def main():
     args = CommandLineArguments()
     filereader = FileProcessor(args)
 
+    # Build up map to to replace tags later in HTML
+    caption_matcher = CaptionMatcher()
+    content = caption_matcher.add_default_tag_to_equations(filereader.content)
+    caption_matcher.setup_ref_map(content)
+
     # register customised markdown to html converters
     component_manager = ComponentManager()
-    component_manager.register(YouTube(filereader.content))
-    component_manager.register(EquationEnvironment(filereader.content))
-    component_manager.register(Code(filereader.content))
-    component_manager.register(Figure(filereader.content))
-    component_manager.register(Table(filereader.content))
+    component_manager.register(YouTube(content))
+    component_manager.register(EquationEnvironment(content))
+    component_manager.register(Code(content))
+    component_manager.register(Figure(content))
+    component_manager.register(Table(content))
 
     # preprocess markdown file with customised converters
     # they will already convert markdown to html
     preprocessor = Preprocessor(filereader.content, component_manager.components)
     preprocessor.preprocess_content()
 
-    # Replace \ref{} call with actual captions
-    caption_matcher = CaptionMatcher(preprocessor.processed_content)
-    content = caption_matcher.substitute()
+    # replace tags by numbers    
+    content = caption_matcher.substitute(preprocessor.processed_content)
 
     # convert remaining (standard) markdown to html
     converter = Mark2HTML(content)

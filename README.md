@@ -1,4 +1,4 @@
-![Version number](https://img.shields.io/badge/Version-0.23.0-red.svg)
+![Version number](https://img.shields.io/badge/Version-0.23.2-red.svg)
 
 ## Introduction
 

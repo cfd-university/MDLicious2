@@ -12,6 +12,7 @@ For vectors in particular, we also have dot and cross products, and these are su
 
 But we can also have code environments:
 
+<!-- code, caption: "Wrong tag should be flagged, should start with tag{code:", \tag{cod:listing-1} -->
 ```python
 print('hello world')
 ```
@@ -59,7 +60,7 @@ a=b+c
 \tag{eq:abc}
 $$
 
-Each equation should have their own tag, even if none is provided:
+Each equation should have their own tag, even if none is provided. The equation above shoudl be Eq.(\ref{eq:abc}), below no tag is provided:
 
 $$
 1+1=2
@@ -78,6 +79,6 @@ $$
 4+4=8
 $$
 
-All shoudl get a tag, regardless.
+All should get a tag, regardless.
 
 Reference may be missspelled as Eq.(\ref{eq:abcd}) or Eq.(\ref{eq:ab}). Both should be flagged.

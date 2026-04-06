@@ -4,9 +4,7 @@ import re
 from MDLicious2.components.base import ComponentType
 
 class CaptionMatcher:
-    def __init__(self, content):
-        self.content = content.split('\n')
-
+    def __init__(self):
         self.counter = {
             ComponentType.FIGURE: 1,
             ComponentType.TABLE: 1,
@@ -15,13 +13,47 @@ class CaptionMatcher:
         }
 
         self.counter_map = {}
+    
+    def add_default_tag_to_equations(self, content):
+        index = 0
+        equation_counter = 0
+        while (index < len(content)):
+            line = content[index].strip()
+            is_equation = line.strip().find('$$') != -1 and len(line.strip()) == 2
 
-        self.__scan()
+            if is_equation:
+                num_lines_equations = 0
+                equation_counter += 1
+                while True:
+                    line = content[index + 1 + num_lines_equations].strip()
+                    is_end = line.strip().find('$$') != -1 and len(line.strip()) == 2
+                    num_lines_equations += 1
 
-    def __scan(self):
-        for index in range(0, len(self.content)):
-            previous_line = self.content[index - 1].strip()
-            line = self.content[index].strip()
+                    if is_end:
+                        break
+                
+                has_tag = False
+                for i in range(index + 1, index + num_lines_equations):
+                    line = content[i].strip()
+                    if line.find(r'\tag') != -1:
+                        has_tag = True
+                
+                if not has_tag:
+                    tag = f'eq:equation-{equation_counter}'
+                    last_eq_line = index + num_lines_equations - 1
+                    content[last_eq_line] = content[last_eq_line] + r'\n\tag{' + tag + '}'
+
+                index += num_lines_equations + 1
+            index += 1
+
+        return content
+
+
+
+    def setup_ref_map(self, content):
+        for index in range(0, len(content)):
+            previous_line = content[index - 1].strip()
+            line = content[index].strip()
 
             if self.__is_figure(line):
                 tag = self.__extract_tag(line)
@@ -90,18 +122,19 @@ class CaptionMatcher:
         else:
             return ''
 
-    def substitute(self):
-        for index in range(0, len(self.content)):
-            line = self.content[index].strip()
+    def substitute(self, content):
+        content = content.split('\n')
+        for index in range(0, len(content)):
+            line = content[index].strip()
 
             if self.__has_ref(line):
                 counter = 0
-                has_ref = self.content[index].find(r'\ref') != -1
+                has_ref = content[index].find(r'\ref') != -1
                 while has_ref:
                     for tag in self.counter_map.keys():
-                        ref_found = self.__extract_ref(self.content[index])
+                        ref_found = self.__extract_ref(content[index])
                         if ref_found.strip() == tag.strip():
-                            self.content[index] = self.content[index].replace(r'\ref{' + tag + '}', f'{self.counter_map[tag]}')
+                            content[index] = content[index].replace(r'\ref{' + tag + '}', f'{self.counter_map[tag]}')
 
                         # if we have a typo in our ref tag, it will never be substituted
                         # if this is the case, silently fail
@@ -113,7 +146,7 @@ class CaptionMatcher:
             # replace equation tag explicitly by number
             if line.find(r'\tag{eq:') != -1:
                 for tag in self.counter_map.keys():
-                    if self.content[index].find(tag) != -1:
-                        self.content[index] = self.content[index].replace(f'{tag}', f'{ self.counter_map[tag]}')
+                    if content[index].find(tag) != -1:
+                        content[index] = content[index].replace(f'{tag}', f'{ self.counter_map[tag]}')
 
-        return '\n'.join(self.content)
+        return '\n'.join(content)
