@@ -1,4 +1,4 @@
-![Version number](https://img.shields.io/badge/Version-0.23.5-red.svg)
+![Version number](https://img.shields.io/badge/Version-0.24.0-red.svg)
 
 ## Introduction
 
@@ -33,6 +33,50 @@ Only the ```inputFile``` and ```outputDirectory``` are strictly speaking require
 ```bash
 python3 /path/to/MDLicious2.py /path/to/config.json
 ```
+
+## Prerequisites
+
+This converter requires Python3 to run, as well as the following packages:
+
+- Markdown 2
+- Pygments
+- Beautiful Soup 4
+
+To install these, create a virtual environment first:
+
+```bash
+python3 -m venv .venv
+```
+
+Then, source the virtual environment
+
+```bash
+# UNIX
+. .venv/bin/active
+
+# Windows
+.venv/Scripts/Activate.ps1
+```
+
+You can now install these packages into the virtual environment with
+
+```bash
+pip install -r requirements.txt
+```
+
+In addition, LaTeX equations are directly converted into HTML through the Node.js module katex. Therefore, Node.js and npm needs to be installed, as well as katex itself. Download [Node.js](https://nodejs.org/en/download) and [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) and then install katex with the following command:
+
+```bash
+npm install katex
+```
+
+Verify that katex is indeed installed by running:
+
+```bash
+npx katex --version
+```
+
+If this prints a version number, you are probably good to go.
 
 ## New Markdown components
 

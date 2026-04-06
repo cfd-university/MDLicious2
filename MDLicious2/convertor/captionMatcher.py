@@ -138,9 +138,9 @@ class CaptionMatcher:
                             break
             
             # replace equation tag explicitly by number
-            if line.find(r'\tag{eq:') != -1:
-                for tag in self.counter_map.keys():
-                    if content[index].find(tag) != -1:
-                        content[index] = content[index].replace(f'{tag}', '{' + f'{ self.counter_map[tag]}' + '}')
+            if line.find(r'<mtext>(eq:') != -1:
+                katex_tag = line.split(r'<mtext>')[1].split(r'</mtext>')[0]
+                tag = katex_tag.replace('(', '{').replace(')', '}')
+                content[index] = line.replace(f'{katex_tag}', '(' + f'{ self.counter_map[tag]}' + ')')
 
         return '\n'.join(content)

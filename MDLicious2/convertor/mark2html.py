@@ -1,4 +1,5 @@
 from re import sub
+import subprocess
 
 from markdown2 import Markdown
 from bs4 import BeautifulSoup
@@ -57,7 +58,16 @@ class Mark2HTML:
         return soup.decode(formatter=None)
 
     def __convert_inline_equations(self, html):
-        return sub(r'(?<!\$)\$(?!\$)(.*?)(?<!\$)\$(?!\$)', r'[katex]\1[/katex]', html)
+        return sub(r'(?<!\$)\$(?!\$)(.*?)(?<!\$)\$(?!\$)', self.replace_inline_katex, html)
+    
+    def replace_inline_katex(self, match):
+        equation = match.group(1)
+        result = subprocess.run(
+            ["node", "MDLicious2/js/katexRendering.js", equation, "false"],
+            capture_output=True,
+            text=True
+        )
+        return result.stdout.strip()
 
     def __prettify(self, html):
         soup = BeautifulSoup(html, "html.parser")
