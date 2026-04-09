@@ -142,5 +142,15 @@ class CaptionMatcher:
                 katex_tag = line.split(r'<mtext>')[1].split(r'</mtext>')[0]
                 tag = katex_tag.replace('(', '{').replace(')', '}')
                 content[index] = line.replace(f'{katex_tag}', '(' + f'{ self.counter_map[tag]}' + ')')
+            
+            if line.find(r'\tag{eq:') != -1:
+                katex_tag = '{' + line.split(r'\tag{')[1].split(r'}')[0] + '}'
+                tag = katex_tag.replace('(', '{').replace(')', '}')
+                content[index] = line.replace(f'{katex_tag}', '(' + f'{ self.counter_map[tag]}' + ')')
+
+            if line.find(r'<span class="mord">eq:') != -1:
+                katex_tag = '{eq:' + line.split(r'<span class="mord">eq:')[1].split(r'</span>')[0] + '}'
+                content[index] = line.replace(f'{katex_tag[1:-1]}', '(' + f'{ self.counter_map[katex_tag]}' + ')')
+
 
         return '\n'.join(content)

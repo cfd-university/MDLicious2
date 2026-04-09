@@ -1,8 +1,9 @@
 from re import sub
-import subprocess
 
 from markdown2 import Markdown
 from bs4 import BeautifulSoup
+
+from MDLicious2.javascriptRuntime import convert_latex_equation
 
 class Mark2HTML:
     def __init__(self, content):
@@ -62,12 +63,7 @@ class Mark2HTML:
     
     def replace_inline_katex(self, match):
         equation = match.group(1)
-        result = subprocess.run(
-            ["node", "MDLicious2/js/katexRendering.js", equation, "false"],
-            capture_output=True,
-            text=True
-        )
-        return result.stdout.strip()
+        return convert_latex_equation(equation, 'false')
 
     def __prettify(self, html):
         soup = BeautifulSoup(html, "html.parser")

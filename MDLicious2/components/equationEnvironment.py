@@ -1,6 +1,5 @@
-import subprocess
-
 from MDLicious2.components.base import Component
+from MDLicious2.javascriptRuntime import convert_latex_equation
 
 class EquationEnvironment(Component):
     def __init__(self, content):
@@ -18,11 +17,4 @@ class EquationEnvironment(Component):
         for i in range(start, end):
             equation += '\n' + self.content[i]
         
-        result = subprocess.run(
-            ["node", "MDLicious2/js/katexRendering.js", equation, "true"],
-            capture_output=True,
-            text=True
-        )
-        return result.stdout.strip()
-
-        # return f'<div class="wp-block-katex-display-block katex-eq" data-katex-display="true"><pre>{equation}</pre></div>'
+        return convert_latex_equation(equation, 'true')

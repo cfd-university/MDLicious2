@@ -7,23 +7,24 @@ def main():
     # process input file
     args = CommandLineArguments()
     filereader = FileProcessor(args)
+    markdown_content = filereader.content
 
     # Build up map to to replace tags later in HTML
     caption_matcher = CaptionMatcher()
-    content = caption_matcher.setup_equation_tags(filereader.content)
-    caption_matcher.setup_ref_map(content)
+    markdown_content = caption_matcher.setup_equation_tags(markdown_content)
+    caption_matcher.setup_ref_map(markdown_content)
 
     # register customised markdown to html converters
     component_manager = ComponentManager()
-    component_manager.register(YouTube(content))
-    component_manager.register(EquationEnvironment(content))
-    component_manager.register(Code(content))
-    component_manager.register(Figure(content))
-    component_manager.register(Table(content))
+    component_manager.register(YouTube(markdown_content))
+    component_manager.register(EquationEnvironment(markdown_content))
+    component_manager.register(Code(markdown_content))
+    component_manager.register(Figure(markdown_content))
+    component_manager.register(Table(markdown_content))
 
     # preprocess markdown file with customised converters
     # they will already convert markdown to html
-    preprocessor = Preprocessor(filereader.content, component_manager.components)
+    preprocessor = Preprocessor(markdown_content, component_manager.components)
     preprocessor.preprocess_content()
 
     # convert remaining (standard) markdown to html
