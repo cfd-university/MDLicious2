@@ -150,7 +150,7 @@ class CaptionMatcher:
 
             if line.find(r'<span class="mord">eq:') != -1:
                 katex_tag = '{eq:' + line.split(r'<span class="mord">eq:')[1].split(r'</span>')[0] + '}'
-                content[index] = line.replace(f'{katex_tag[1:-1]}', '(' + f'{ self.counter_map[katex_tag]}' + ')')
+                content[index] = line.replace(f'{katex_tag[1:-1]}', f'{ self.counter_map[katex_tag]}')
 
 
         return '\n'.join(content)
