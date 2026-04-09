@@ -118,7 +118,6 @@ class CaptionMatcher:
             return ''
 
     def substitute(self, content):
-        content = content.split('\n')
         for index in range(0, len(content)):
             line = content[index].strip()
 
@@ -153,4 +152,4 @@ class CaptionMatcher:
                 content[index] = line.replace(f'{katex_tag[1:-1]}', f'{ self.counter_map[katex_tag]}')
 
 
-        return '\n'.join(content)
+        return content

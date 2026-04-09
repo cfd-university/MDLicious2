@@ -35,7 +35,7 @@ def main():
     html_content_with_substituted_tags = caption_matcher.substitute(html_content)
 
     # perform checks on input and output file
-    checks = CheckManager(filereader.content, html_content_with_substituted_tags, args.output)
+    checks = CheckManager(markdown_content, html_content_with_substituted_tags, args.output)
     checks.register_markdown_checks(EquationCheck())
     checks.register_markdown_checks(CodeCheck())
     checks.register_html_checks(RefCheck())

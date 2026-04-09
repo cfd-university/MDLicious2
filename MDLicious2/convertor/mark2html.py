@@ -20,8 +20,8 @@ class Mark2HTML:
         html = self.__add_class_to_blockquotes(html)
         html = self.__convert_inline_equations(html)
         html = self.__prettify(html)
-        
-        return html
+
+        return html.split('\n')        
 
     def __insert_toc(self, html):
         temp_html = html.split('\n')

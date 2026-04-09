@@ -24,4 +24,4 @@ class FileProcessor:
 
     def output(self, content):
         with open(self.output_file, 'w') as f:
-            f.write(content)
+            f.write('\n'.join(content))

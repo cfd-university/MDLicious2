@@ -1,4 +1,5 @@
 from MDLicious2.checks.baseCheck import BaseCheck
+import re
 
 class RefCheck(BaseCheck):
     def __init__(self):
@@ -13,8 +14,9 @@ class RefCheck(BaseCheck):
             has_correct_tag = line.find(r'\tag{eq:') != -1 or \
                               line.find(r'\tag{fig:') != -1 or \
                               line.find(r'\tag{code:') != -1 or \
-                              line.find(r'\tag{tab:') != -1
+                              line.find(r'\tag{tab:') != -1 or \
+                              re.search(r'\\tag\{(\d+)\}', line) != None
             
             if not has_correct_tag:
                 highlighted_line = self._highlight(r'\tag', line)
-                errors.append(self._create_error(r'wrong tag found, needs to start with \ref{eq:, \ref{fig:, or \ref{tab:', highlighted_line))
+                errors.append(self._create_error(r'wrong tag found, needs to start with \ref{eq:, \ref{fig:, \ref{code:, or \ref{tab:', highlighted_line))
