@@ -41,4 +41,5 @@ class Code(Component):
 
         html_code = highlight(code, lexer, formatter)
 
-        return html_code + caption
+        # return html_code + caption
+        return f'<div style="max-width: 100%; overflow-x: auto;">{html_code}</div>' + caption
