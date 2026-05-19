@@ -31,7 +31,7 @@ class Code(Component):
         css = formatter.get_style_defs('.codehilite')
 
         # # uncomment the following to generate new code styles
-        # with open('code.css', 'w') as f:
+        # with open('code.css', 'w', encoding='utf-8') as f:
         #     f.write(css)
 
         code = ''

@@ -14,7 +14,7 @@ class FileProcessor:
         self.__replace()
 
     def __read_file(self):
-        with open(self.input_file) as f:
+        with open(self.input_file, encoding='utf-8') as f:
             return f.read().splitlines()
 
     def __replace(self):
@@ -23,5 +23,5 @@ class FileProcessor:
                 self.content[i] = self.content[i].replace(key, value)
 
     def output(self, content):
-        with open(self.output_file, 'w') as f:
+        with open(self.output_file, 'w', encoding='utf-8') as f:
             f.write('\n'.join(content))

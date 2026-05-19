@@ -22,7 +22,8 @@ def convert_latex_equation(equation, display_mode):
     result = subprocess.run(
         ["node", "-e", katex2htmlJS],
         capture_output=True,
-        text=True
+        text=True,
+        encoding='utf-8'
     )
 
     return result.stdout.strip()

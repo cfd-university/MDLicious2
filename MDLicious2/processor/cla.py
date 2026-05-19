@@ -5,7 +5,7 @@ class CommandLineArguments:
     def __init__(self):
         assert len(argv) == 2, "Invalid number of arguments, requires 1 json file as argument!"
 
-        with open(argv[1], 'r') as f:
+        with open(argv[1], 'r', encoding='utf-8') as f:
             self.parser = json.load(f)
 
         # required input parameters

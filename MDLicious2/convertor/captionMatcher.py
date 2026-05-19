@@ -138,7 +138,8 @@ class CaptionMatcher:
             
             # replace equation tag explicitly by number
             if line.find(r'<mtext>(eq:') != -1:
-                katex_tag = line.split(r'<mtext>')[1].split(r'</mtext>')[0]
+                katex_tag = line.split(r'<mtext>(eq:')[1].split(r'</mtext>')[0]
+                katex_tag = '(eq:' + katex_tag
                 tag = katex_tag.replace('(', '{').replace(')', '}')
                 content[index] = line.replace(f'{katex_tag}', '(' + f'{ self.counter_map[tag]}' + ')')
             

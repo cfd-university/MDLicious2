@@ -35,5 +35,5 @@ class CheckManager:
 
         stderr_json = json.dumps(stderr, indent=2)
         
-        with open(join(self.output_directory, 'stderr.json'), 'w') as f:
+        with open(join(self.output_directory, 'stderr.json'), 'w', encoding='utf-8') as f:
             f.write(stderr_json)

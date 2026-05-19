@@ -29,6 +29,12 @@ But this certainly shoudl fail:
 wrong backticks detected
 ```
 
+And now a very long code section, this shoudl get wrapped in a scrollbar
+
+```python
+result = get_result_from_long_function(os.path.join('path', 'to', 'file.md'), argument_1, argument_2, argument_3, argument_4, argument_5)
+```
+
 ### This paragraph contains incorrect equation syntax
 
 Thus, as $\Delta x$ decreases, so does our time step $$\Delta t$, since the maximum allowable CFL number will be around 1 for our explicit time integration. Now that we have to deal with painfully small time steps, we decide to implement an implicit time stepping, and so we need support for a linear system of equations solver.
