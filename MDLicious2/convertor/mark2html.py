@@ -37,7 +37,7 @@ class Mark2HTML:
     def __insert_toc(self, html):
         temp_html = html.split('\n')
         for i in range(len(temp_html)):
-            if temp_html[i].find('[toc]') != -1:
+            if temp_html[i].lower().find('[toc]') != -1:
                 temp_html[i] = html.toc_html
         html = '\n'.join(temp_html)
         return html
