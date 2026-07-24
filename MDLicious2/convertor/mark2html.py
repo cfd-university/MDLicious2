@@ -1,3 +1,4 @@
+import re
 from re import sub
 
 from markdown2 import Markdown
@@ -5,25 +6,33 @@ from bs4 import BeautifulSoup
 
 from MDLicious2.javascriptRuntime import convert_latex_equation
 
+SHORTCODE_PATTERN = re.compile(
+    r'^[ \t]*\[custom_category_posts_list category_slug="[^"]*"\][ \t]*$',
+    re.MULTILINE
+)
+
 class Mark2HTML:
     def __init__(self, content):
         self.content = content
         self.converter = Markdown(extras=["toc"])
+        self.protected_shortcodes = []
 
     def convert(self):
         # needs to run first so markdown does not destroy formating
         self.content = self.__convert_inline_equations(self.content)
+        self.content = self.__protect_shortcodes(self.content)
 
         # convert markdown to html
         html = self.converter.convert(self.content)
-        
+
         # modify html with custom behaviour
         html = self.__insert_toc(html)
         html = self.__add_security_to_links(html)
         html = self.__add_class_to_blockquotes(html)
         html = self.__prettify(html)
+        html = self.__restore_shortcodes(html)
 
-        return html.split('\n')        
+        return html.split('\n')
 
     def __insert_toc(self, html):
         temp_html = html.split('\n')
@@ -59,6 +68,22 @@ class Mark2HTML:
             blockquote["class"] = "wp-block-quote"
 
         return soup.decode(formatter="minimal")
+
+    def __protect_shortcodes(self, content):
+        self.protected_shortcodes = []
+
+        def stash(match):
+            self.protected_shortcodes.append(match.group(0).strip())
+            return f'SHORTCODEPLACEHOLDER{len(self.protected_shortcodes) - 1}'
+
+        return SHORTCODE_PATTERN.sub(stash, content)
+
+    def __restore_shortcodes(self, html):
+        for i, shortcode in enumerate(self.protected_shortcodes):
+            placeholder = f'SHORTCODEPLACEHOLDER{i}'
+            html = html.replace(f'<p>{placeholder}</p>', shortcode)
+            html = html.replace(placeholder, shortcode)
+        return html
 
     def __convert_inline_equations(self, html):
         return sub(r'(?<!\$)\$(?!\$)(.*?)(?<!\$)\$(?!\$)', self.replace_inline_katex, html)
