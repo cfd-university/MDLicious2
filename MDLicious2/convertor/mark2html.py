@@ -11,6 +11,9 @@ class Mark2HTML:
         self.converter = Markdown(extras=["toc"])
 
     def convert(self):
+        # needs to run first so markdown does not destroy formating
+        self.content = self.__convert_inline_equations(self.content)
+
         # convert markdown to html
         html = self.converter.convert(self.content)
         
@@ -18,7 +21,6 @@ class Mark2HTML:
         html = self.__insert_toc(html)
         html = self.__add_security_to_links(html)
         html = self.__add_class_to_blockquotes(html)
-        html = self.__convert_inline_equations(html)
         html = self.__prettify(html)
 
         return html.split('\n')        
@@ -49,14 +51,14 @@ class Mark2HTML:
             a["target"] = "_blank"
             a["rel"] = "noopener noreferrer"
 
-        return soup.decode(formatter=None)
-    
+        return soup.decode(formatter="minimal")
+
     def __add_class_to_blockquotes(self, html):
         soup = BeautifulSoup(html, "html.parser")
         for blockquote in soup.find_all("blockquote"):
             blockquote["class"] = "wp-block-quote"
 
-        return soup.decode(formatter=None)
+        return soup.decode(formatter="minimal")
 
     def __convert_inline_equations(self, html):
         return sub(r'(?<!\$)\$(?!\$)(.*?)(?<!\$)\$(?!\$)', self.replace_inline_katex, html)
@@ -74,4 +76,4 @@ class Mark2HTML:
         for tag in soup.find_all(elements):
             tag.insert_after("\n")
 
-        return soup.decode(formatter=None)
+        return soup.decode(formatter="minimal")

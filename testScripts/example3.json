@@ -1,0 +1,7 @@
+{
+    "inputFile": "testScripts/example3.md",
+    "outputDirectory": "out",
+    "replace": {
+        "..\\..\\articles\\07_10-key-concepts-everyone-must-understand-in-cfd\\assets\\05_5_the_complete_guide_to_linear_system_of_equation_solvers_in_cfd\\": "https://raw.githubusercontent.com/cfd-university/articles/refs/heads/main/07_10-key-concepts-everyone-must-understand-in-cfd/assets/05_5_the_complete_guide_to_linear_system_of_equation_solvers_in_cfd/"
+    }
+}

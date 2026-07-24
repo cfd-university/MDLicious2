@@ -22,7 +22,7 @@ class Code(Component):
         # extract possible caption on the previous line
         caption = self.caption_extractor.extract(self.content[index - 1], ComponentType.CODE)
 
-        language = 'text'
+        language = 'bash'
         if len(self.content[index].strip()) > 3:
             language = self.content[index].strip()[3:]
 

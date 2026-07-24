@@ -1,8 +1,7 @@
-Get this party started with $\mathbf{F}=m\mathbf{a}$. Also with inline support, of course!
+```c++
+#include <number>
 
-$$
-\mathbf{F}=m\mathbf{a}
-\tag{eq:newton}
-$$
-
-Eq.(\ref{eq:newton}) was a clever man! Wrong Equation, though with Eq(\ref{eq:gauss})!
+int main() {
+    return 0;
+}
+```
