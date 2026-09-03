@@ -33,7 +33,7 @@ The `main()` function is the whole orchestration, and the order is load-bearing:
 2. `CaptionMatcher.setup_equation_tags` — scans `$$…$$` blocks and *mutates the line list*, injecting a synthetic `\tag{eq:equation-N}` where the author gave none.
 3. `CaptionMatcher.setup_ref_map` — walks the raw markdown and builds `counter_map: tag → number` for all four component types, before any HTML exists.
 4. `ComponentManager` + `Preprocessor` — custom components convert their own regions straight to HTML; everything else passes through untouched.
-5. `Mark2HTML.convert` — standard markdown2 conversion of the mixed markdown/HTML string, plus post-processing.
+5. `Mark2HTML.convert` — standard markdown2 conversion of the mixed markdown/HTML string, plus post-processing (TOC, link hardening, blockquote classes, emoji, whitespace).
 6. `CaptionMatcher.substitute` — replaces `\ref{...}` (and KaTeX-mangled equation tags) with numbers from `counter_map`.
 7. `CheckManager` — validators over input markdown and output HTML; writes `stderr.json` into `outputDirectory`.
 8. `FileProcessor.output` — writes `<inputbasename>.html` into `outputDirectory`.
@@ -72,4 +72,5 @@ To add one: create the class, export it from `MDLicious2/__init__.py`, and regis
 - **KaTeX tags survive as markup**: after rendering, an equation tag can appear as `<mtext>(eq:…)`, a literal `\tag{eq:…}`, or `<span class="mord">eq:…</span>`. `CaptionMatcher.substitute` handles all three; adding a KaTeX version bump may add a fourth.
 - **Inline equations run before markdown2** so it cannot mangle LaTeX; each equation is a separate `node` subprocess, so equation-heavy documents are slow by design.
 - **Code styling**: Pygments `nord` style with `linenos="table"`. `code.py` has a commented-out block that regenerates `code.css` — the CSS is not emitted at runtime and is maintained by hand alongside the site theme.
+- **Emoji shortcodes** (`:heart:`) are substituted *after* markdown2 by walking HTML text nodes in `Mark2HTML.__convert_emojis`, using `emoji.emojize(..., language='alias')` for the GitHub shortcode set. Subtrees under `pre`, `code`, `math` and any `katex*` class are skipped, so shortcodes survive verbatim in code listings, inline code, and equations. Only plain `NavigableString` nodes are eligible — replacing a `Comment` would strip its `<!-- -->` markers. Unknown names are left untouched, which is what keeps `12:30:45` and `caption: "..."` safe.
 - **Checks are advisory except by convention**: `CheckManager` never raises; it writes warnings/errors to `out/stderr.json`. `RefCheck` flags any `\ref` or malformed `\tag` still present in the final HTML, which is the signal that numbering broke.
