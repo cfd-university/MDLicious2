@@ -24,13 +24,19 @@ class CaptionMatcher:
             if is_equation:
                 num_lines_equations = 0
                 equation_counter += 1
-                while True:
+                has_end = False
+                while index + 1 + num_lines_equations < len(content):
                     line = content[index + 1 + num_lines_equations].strip()
                     is_end = line.strip().find('$$') != -1 and len(line.strip()) == 2
                     num_lines_equations += 1
 
                     if is_end:
+                        has_end = True
                         break
+
+                # the equation is never closed, so there is nothing left to number
+                if not has_end:
+                    break
                 
                 has_tag = False
                 tag = ''
@@ -41,17 +47,25 @@ class CaptionMatcher:
                         tag = self.__extract_tag(line)
                         break
                 
+                # line holding the closing '$$' of this equation
+                closing_line = index + num_lines_equations
+
                 if has_tag:
                     self.counter_map[tag] = self.counter[ComponentType.EQUATION]
                 elif not has_tag:
                     tag = '{' + f'eq:equation-{equation_counter}' + '}'
-                    last_eq_line = index + num_lines_equations
-                    content.insert(last_eq_line, r'\tag' + tag)
+                    content.insert(closing_line, r'\tag' + tag)
                     self.counter_map[tag] = self.counter[ComponentType.EQUATION]
+
+                    # inserting the tag pushes the closing '$$' down a line
+                    closing_line += 1
 
                 # increment equation counter           
                 self.counter[ComponentType.EQUATION] += 1
-                index += num_lines_equations + 2
+
+                # resume on the closing '$$', the increment below then moves on
+                # to the first line after the equation
+                index = closing_line
             index += 1
 
         return content
