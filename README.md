@@ -1,4 +1,4 @@
-![Version number](https://img.shields.io/badge/Version-0.24.5-red.svg)
+![Version number](https://img.shields.io/badge/Version-0.25.0-red.svg)
 
 ## Introduction
 
@@ -41,6 +41,7 @@ This converter requires Python3 to run, as well as the following packages:
 - Markdown 2
 - Pygments
 - Beautiful Soup 4
+- emoji
 
 To install these, create a virtual environment first:
 
@@ -293,6 +294,26 @@ The same video but now without any arguments/variables:
 ```
 
 Appropriate classes are automatically added so that the video scales to the correct size on the HTML page. Videos are embedded using a privacy-enhanced mode, that is, YouTube is not allowed to set any cookies on [cfd.university](https://cfd.university).
+
+### Emoji
+
+GitHub-style emoji shortcodes are supported anywhere in the text, so writing ```:heart:``` produces ❤️. The full [GitHub shortcode list](https://github.com/ikatyang/emoji-cheat-sheet) is available, including aliases such as ```:+1:``` (👍) and ```:100:``` (💯). Shortcodes are replaced by the actual Unicode character, so no external image requests are made from the page.
+
+Emoji also work inside figure, table, and code listing captions:
+
+```markdown
+<!-- figure, width: 600px, caption: "A caption with :sparkles:" -->
+![Alt text of image](https://placehold.co/600x400)
+```
+
+Shortcodes are deliberately left untouched in the following cases, so that they can be written about literally:
+
+- inside code listings and inline code spans
+- inside equations
+- any shortcode that is not a known emoji name, such as ```:notanemoji:```, is left as-is
+
+> [!TIP]
+> Because the substitution only happens for known emoji names, ordinary text containing colons is safe. A ratio such as 3:4:5 or a time such as 12:30:45 is never altered.
 
 ## MDLicious2 - What happend to version 1?
 
