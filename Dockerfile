@@ -15,7 +15,8 @@ WORKDIR /app
 RUN pip install --no-cache-dir \
     markdown2 \
     pygments \
-    beautifulsoup4
+    beautifulsoup4 \
+    emoji
  
 # Install katex via npm
 RUN npm install katex

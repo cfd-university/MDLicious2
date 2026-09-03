@@ -2,7 +2,8 @@ import re
 from re import sub
 
 from markdown2 import Markdown
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, NavigableString
+from emoji import emojize
 
 from MDLicious2.javascriptRuntime import convert_latex_equation
 
@@ -10,6 +11,10 @@ SHORTCODE_PATTERN = re.compile(
     r'^[ \t]*\[custom_category_posts_list category_slug="[^"]*"\][ \t]*$',
     re.MULTILINE
 )
+
+# emoji shortcodes must not be substituted inside code listings, inline code
+# spans, or rendered katex markup (katex emits both MathML and HTML)
+EMOJI_PROTECTED_TAGS = ('pre', 'code', 'math', 'script', 'style')
 
 class Mark2HTML:
     def __init__(self, content):
@@ -29,6 +34,7 @@ class Mark2HTML:
         html = self.__insert_toc(html)
         html = self.__add_security_to_links(html)
         html = self.__add_class_to_blockquotes(html)
+        html = self.__convert_emojis(html)
         html = self.__prettify(html)
         html = self.__restore_shortcodes(html)
 
@@ -68,6 +74,32 @@ class Mark2HTML:
             blockquote["class"] = "wp-block-quote"
 
         return soup.decode(formatter="minimal")
+
+    def __convert_emojis(self, html):
+        soup = BeautifulSoup(html, "html.parser")
+
+        # only plain text nodes are eligible, comments and other preformatted
+        # strings would lose their markers when replaced by a NavigableString
+        for text in soup.find_all(string=lambda s: type(s) is NavigableString):
+            if self.__is_emoji_protected(text):
+                continue
+
+            converted = emojize(str(text), language='alias')
+            if converted != text:
+                text.replace_with(converted)
+
+        return soup.decode(formatter="minimal")
+
+    def __is_emoji_protected(self, text):
+        for parent in text.parents:
+            if parent.name in EMOJI_PROTECTED_TAGS:
+                return True
+
+            classes = parent.get("class") or []
+            if any(css_class.startswith("katex") for css_class in classes):
+                return True
+
+        return False
 
     def __protect_shortcodes(self, content):
         self.protected_shortcodes = []
