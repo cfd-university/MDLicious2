@@ -2,7 +2,7 @@ import re
 from re import sub
 
 from markdown2 import Markdown
-from bs4 import BeautifulSoup, NavigableString
+from bs4 import BeautifulSoup, Comment, NavigableString
 from emoji import emojize
 
 from MDLicious2.javascriptRuntime import convert_latex_equation
@@ -35,6 +35,7 @@ class Mark2HTML:
         html = self.__add_security_to_links(html)
         html = self.__add_class_to_blockquotes(html)
         html = self.__convert_emojis(html)
+        html = self.__unwrap_comments(html)
         html = self.__prettify(html)
         html = self.__restore_shortcodes(html)
 
@@ -72,6 +73,27 @@ class Mark2HTML:
         soup = BeautifulSoup(html, "html.parser")
         for blockquote in soup.find_all("blockquote"):
             blockquote["class"] = "wp-block-quote"
+
+        return soup.decode(formatter="minimal")
+
+    def __unwrap_comments(self, html):
+        soup = BeautifulSoup(html, "html.parser")
+
+        # markdown2 wraps html comments in a paragraph as soon as they are not
+        # a block of their own, which shows up as a stray empty line. comments
+        # sharing a paragraph with actual text are left where the author put them
+        for paragraph in soup.find_all("p"):
+            children = list(paragraph.children)
+
+            holds_comment = any(isinstance(child, Comment) for child in children)
+            holds_nothing_else = all(
+                isinstance(child, Comment) or
+                (type(child) is NavigableString and len(child.strip()) == 0)
+                for child in children
+            )
+
+            if holds_comment and holds_nothing_else:
+                paragraph.unwrap()
 
         return soup.decode(formatter="minimal")
 
